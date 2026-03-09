@@ -17,15 +17,27 @@ document.getElementById("applyForm").addEventListener("submit", async function(e
   const botToken = "AAHWSirvDae8C9NpQbw-YnIh52hEEdRJfoA";
   const chatId = "8732760335";
 
-  try {
-    const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message
-      })
-    });
+try {
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: message
+    })
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    console.log("Message sent:", data);
+  } else {
+    console.error("Telegram error:", data.description);
+  }
+} catch (error) {
+  console.error("Network error:", error.message);
+}
+
 
     if (response.ok) {
       alert("Application submitted successfully!");
@@ -82,4 +94,5 @@ window.addEventListener("DOMContentLoaded", () => {
     populateDays(yearSelect.value, monthSelect.value);
   });
 });
+
 
